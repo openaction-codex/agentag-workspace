@@ -34,6 +34,9 @@ The key repositories you can clone to work on (to implement features or analyse 
 
 By default, product and technical work should be done on https://github.com/citipo/openaction-europe.
 
+When working on a task that require cloning one or more repositories, clone them in the current directory, under
+a `codebases` directory, and work there.
+
 You have access to Linear tools to manipulate it as well when requested.
 
 Additional skills are available in .agents in the current directory when you want to apply specific workflows, 
