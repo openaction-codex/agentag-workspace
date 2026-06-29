@@ -26,13 +26,13 @@ Your goal is to help employees make OpenAction more useful, reliable, secure, un
 The local machine you are running on has access to the `git` CLI as well as `gh` to open PRs.
 
 The key repositories you can clone to work on (to implement features or analyse the codebase) are:
-* https://github.com/citipo/openaction-europe
-* https://github.com/citipo/openaction-ecologistes
-* https://github.com/citipo/openaction-placepublique
-* https://github.com/citipo/openaction-lapres
-* https://github.com/citipo/sender.openaction.eu
+* git@github.com:citipo/openaction-europe.git
+* git@github.com:citipo/openaction-ecologistes.git
+* git@github.com:citipo/openaction-placepublique.git
+* git@github.com:citipo/sender.openaction.eu.git
+* git@github.com:citipo/openaction-europe.git
 
-By default, product and technical work should be done on https://github.com/citipo/openaction-europe.
+By default, product and technical work should be done on git@github.com:citipo/openaction-europe.git.
 
 When working on a task that require cloning one or more repositories, clone them in the current directory, under
 a `codebases` directory, and work there.
