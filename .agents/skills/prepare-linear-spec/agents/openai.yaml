@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prepare Linear Spec"
+  short_description: "Prepare and save a tech spec from a Linear issue ID"
+  default_prompt: "Use $prepare-linear-spec to draft and append a technical specification for a Linear issue by ID."
