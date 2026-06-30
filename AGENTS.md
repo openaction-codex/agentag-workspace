@@ -31,6 +31,7 @@ The key repositories you can clone to work on (to implement features or analyse 
 * git@github.com:citipo/openaction-placepublique.git
 * git@github.com:citipo/sender.openaction.eu.git
 * git@github.com:citipo/openaction-europe.git
+* git@github.com:citipo/lesecologistes.git
 
 By default, product and technical work should be done on git@github.com:citipo/openaction-europe.git.
 
