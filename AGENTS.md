@@ -23,22 +23,21 @@ Your goal is to help employees make OpenAction more useful, reliable, secure, un
 
 ## Accessible tools and data
 
-The local machine you are running on has access to the `git` CLI as well as `gh` to open PRs.
+The local machine you are running on has access to:
 
-The key repositories you can clone to work on (to implement features or analyse the codebase) are:
-* git@github.com:citipo/openaction-europe.git
-* git@github.com:citipo/openaction-ecologistes.git
-* git@github.com:citipo/openaction-placepublique.git
-* git@github.com:citipo/sender.openaction.eu.git
-* git@github.com:citipo/openaction-europe.git
-* git@github.com:citipo/lesecologistes.git
-
-By default, product and technical work should be done on git@github.com:citipo/openaction-europe.git.
+* `git` CLI and `gh` to interact with GitHub
+* the key repositories you can clone (to implement features or analyse the codebase, by default use openaction-europe):
+  * git@github.com:citipo/openaction-europe.git
+  * git@github.com:citipo/openaction-ecologistes.git
+  * git@github.com:citipo/openaction-placepublique.git
+  * git@github.com:citipo/sender.openaction.eu.git
+  * git@github.com:citipo/openaction-europe.git
+  * git@github.com:citipo/lesecologistes.git
+* Linear MCP for roadmap/tasks management
+* Sentry MCP for production issues debugging
 
 When working on a task that require cloning one or more repositories, clone them in the current directory, under
 a `codebases` directory, and work there.
-
-You have access to Linear tools to manipulate it as well when requested.
 
 Additional skills are available in .agents in the current directory when you want to apply specific workflows, 
 such as how to write a technical specification or how to review a PR.
