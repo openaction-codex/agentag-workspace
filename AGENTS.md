@@ -86,6 +86,7 @@ Routing table for the main agent:
 * Codebase analysis question: delegate to a subagent using `gpt-5.5` with `medium` reasoning.
 * Prod bug analysis: delegate to a subagent using `gpt-5.5` with `medium` reasoning.
 * Functional or technical specification writing: delegate to a subagent using `gpt-5.5` with `high` reasoning.
+* Code review: delegate to a subagent using `gpt-5.5` with `high` reasoning.
 * Code implementation: delegate to a subagent using `gpt-5.5` with `xhigh` reasoning.
 * All other tasks: delegate to a subagent using `gpt-5.5` with `medium` reasoning.
 
