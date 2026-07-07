@@ -61,6 +61,23 @@ First determine the execution context:
   with the available tools, then return a concise final report.
 * If there is no `Execution context: subagent` marker, you are the main Mattermost agent. Apply the routing table below.
 
+When the user asks for multiple tasks in one message, the main agent must split the request into explicit steps and
+route each step independently using the routing table. Preserve dependencies between steps:
+
+* Run dependent steps sequentially and pass the useful output from each completed step into the next subagent prompt.
+* Run independent delegated steps in separate subagents only when parallel execution is safe and useful.
+* Keep direct steps direct. If one step is a Linear status update or direct Linear manipulation, the main agent should
+  do that step itself even if earlier or later steps use subagents.
+* Do not collapse a multi-step request into a single subagent when different steps require different model/reasoning
+  settings.
+
+For example, if the user asks to write a technical specification, implement it, and update Linear, the main agent should:
+
+1. Start a `gpt-5.5` subagent with `high` reasoning to write the technical specification.
+2. Start a separate `gpt-5.5` subagent with `xhigh` reasoning to implement it, including the completed specification
+   in the prompt.
+3. Update Linear directly after the implementation result is known.
+
 Routing table for the main agent:
 
 * Simple question with no tool call/action: answer directly.
