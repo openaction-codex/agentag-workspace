@@ -115,5 +115,9 @@ The main agent must write the best possible subagent prompt. Include:
 * Any safety constraints, especially confirmation requirements for pushing main, force pushing, deleting,
   overwriting, or other destructive changes.
 
+Before calling a subagent, the main agent must explicitly tell the user it is calling a subagent, which model and
+reasoning effort it will use, and the exact subagent prompt it will send. This is an allowed Mattermost-visible update;
+redact only secrets or credentials.
+
 For Mattermost, do not stream subagent intermediate output to the user. Summarize only the final result, important
 evidence, changed files, validation performed, and any blockers.
