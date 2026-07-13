@@ -31,10 +31,8 @@ Use these routes:
 
 * Use GPT-5.6 Luna max directly in the main agent for simple coding tasks: wording changes, small or mechanical refactors, bugs with known context and cause, straightforward technical specifications or implementations, and routine PR reviews.
 * Use GPT-5.6 Luna max directly in the main agent for questions about the current implementation or product: how something works, the current logic of a feature, or whether a known situation can occur. Inspect evidence yourself and answer without delegation.
-* Use the `sol-high` subagent for medium coding tasks such as a contained feature, a non-trivial review, or a bug whose cause is unknown but whose scope is bounded.
-* Use the `sol-xhigh` subagent for advanced coding tasks such as cross-system features, difficult debugging, larger refactors, architecture, or long implementation plans.
-* Use the `sol-max` subagent only for the most complex, ambiguous, high-risk, or unusually broad coding and architecture tasks.
-* For other tasks, use GPT-5.6 Luna max directly when they are routine; use the `terra-max` subagent for broad, read-heavy research, document processing, comparisons, or synthesis; use the `sol-high` subagent when non-coding work instead needs deeper judgment, careful trade-off analysis, or consequential recommendations.
+* Use the `sol-xhigh` subagent for medium or advanced coding tasks such as contained or cross-system features, non-trivial reviews, bugs whose cause is unknown, difficult debugging, larger refactors, architecture, or long implementation plans.
+* For other tasks, use GPT-5.6 Luna max directly when they are routine; use the `terra-max` subagent for broad, read-heavy research, document processing, comparisons, or synthesis; use the `sol-xhigh` subagent when non-coding work instead needs deeper judgment, careful trade-off analysis, or consequential recommendations.
 
 When a subagent route is selected, delegate the core specialist work to exactly that project-scoped agent without full-history inheritance (`fork_turns="none"` when available), give it the relevant request, context, and constraints, wait for its result, and then verify and synthesize the result in the main agent. Avoid parallel write conflicts and do not let a subagent communicate directly with the end user, push, delete, overwrite, or perform destructive actions.
 
