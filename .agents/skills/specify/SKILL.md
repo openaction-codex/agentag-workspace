@@ -16,11 +16,10 @@ unambiguously.
 
 ## Operating rules
 
-- Write concise Mattermost updates in the user's language. When a specialist
-  is involved, relay only concrete milestone notes.
-- Clone missing repositories under `codebases/`. Default to
-  `openaction-europe` only when the issue gives no stronger repository signal.
-- Preserve unrelated changes and never push directly to `main`.
+- Keep Mattermost updates concise and in the user's language; relay only
+  concrete specialist milestones. Clone missing repositories under `codebases/`
+  (default: `openaction-europe`), preserve unrelated changes, and never push
+  directly to `main`.
 
 ## Workflow
 
@@ -106,13 +105,11 @@ uses this specification for issue-specific technical guidance.
 
 Before updating Linear, verify that the specification:
 
-- matches the issue request and its latest discussion;
-- is grounded in the current codebase rather than guessed architecture;
-- adds codebase-derived guidance instead of paraphrasing the issue;
-- separates verified current behavior, proposed design, and open questions;
-- names concrete code anchors and scenario-level tests;
+- matches the issue and latest discussion and is grounded in the current
+  codebase, with concrete anchors and scenario-level tests;
+- adds implementation guidance rather than paraphrasing the issue, separating
+  verified behavior, proposed design, and open questions;
 - covers relevant contracts, data, security, compatibility, edge cases, and
-  scope boundaries without adding boilerplate sections;
-- contains no credentials, personal data, or irrelevant internal details;
-- is concrete enough to implement without prescribing incidental details or
-  duplicating the generic implementation workflow.
+  scope without boilerplate;
+- contains no sensitive or irrelevant details and is actionable without
+  prescribing incidental edits or duplicating the generic workflow.

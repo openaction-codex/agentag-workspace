@@ -16,15 +16,11 @@ repository, or a product decision cannot be resolved unambiguously.
 
 ## Operating rules
 
-- Write concise Mattermost updates in the user's language. When a specialist
-  is involved, relay only concrete milestone notes.
-- Clone missing repositories under `codebases/`. Default to
-  `openaction-europe` only when the issue gives no stronger repository signal.
-- Preserve unrelated changes and never push directly to `main`.
-- Use GitHub MCP tools for every GitHub read and write, including pull request
-  creation and updates, comments, checks, statuses, and deployments. Do not use
-  a GitHub command-line client or direct HTTP API calls. If a required GitHub
-  MCP operation is unavailable, stop and report the missing capability.
+- Keep Mattermost updates concise and in the user's language; relay only
+  concrete specialist milestones. Clone missing repositories under `codebases/`
+  (default: `openaction-europe`), preserve unrelated changes, and never push
+  directly to `main`. Use GitHub MCP for all GitHub reads and writes; if a
+  required operation is unavailable, stop and report it.
 
 ## Workflow
 
@@ -141,19 +137,14 @@ awk '
 
 ## Coolify preview URLs
 
-Retrieve URLs only through GitHub MCP reads of evidence tied to the current PR
-and head commit, such as deployment environments, successful Coolify/CI check
-output, or a Coolify bot comment on the PR. Match each URL to its explicitly
-named app. Open or probe every URL and verify that it is a reachable preview
-for the current PR. Never derive a hostname from another app, copy a production
-URL, or guess a URL from naming conventions.
+Read the Coolify bot comment on the current PR and use only URLs explicitly
+listed there for that PR and head commit. Match each URL to its named app and
+verify that it is reachable. Never derive, copy, or guess a URL.
 
-Require verified preview URLs for all four apps: `console`, `public`,
-`platform`, and `mobilisation`. If any URL is missing, ambiguous, unreachable,
-or not tied to the current PR, keep the PR in draft, keep Linear `In progress`,
-do not post the Linear comment, and report the missing evidence in Mattermost.
-Continue monitoring or fix the preview deployment; never claim completion with
-placeholder or inferred URLs.
+Require verified URLs for `console`, `public`, `platform`, and `mobilisation`.
+If any is missing, ambiguous, unreachable, or not tied to the PR, keep the PR
+in draft and Linear `In progress`, do not post the Linear comment, and report
+the missing evidence. Never claim completion with incomplete or inferred URLs.
 
 ## Linear comment
 
@@ -182,13 +173,10 @@ issue metadata, CI details, status note, footer, or other commentary.
 
 Before handing off, verify that:
 
-- the implementation satisfies the issue's latest accepted scope;
-- every material specification requirement is implemented or explicitly
-  explained;
+- the implementation and specification satisfy the latest accepted scope;
 - focused tests cover important success, edge, permission, and failure paths;
-- the branch contains no unrelated edits or sensitive data;
-- the PR body has only the three required sections and its raw Markdown block
-  has no line longer than 80 characters;
-- the Linear comment has only the two verbatim French sections and the four
-  verified Coolify preview URLs;
-- Linear, the PR, and the Mattermost summary agree on the actual result.
+- the branch has no unrelated or sensitive edits;
+- the PR body has only its three sections and its raw block stays within 80
+  columns;
+- the Linear comment has only the two copied French sections and four verified
+  Coolify URLs, with Linear, PR, and Mattermost reporting the same result.

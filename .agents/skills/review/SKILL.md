@@ -22,13 +22,11 @@ accept a mode override.
 
 ## Operating rules
 
-- Write concise Mattermost updates in the user's language. When a specialist
-  is involved, relay only concrete milestone notes.
-- Clone missing repositories under `codebases/`. Preserve unrelated changes;
-  use an isolated worktree when checkout would disturb them.
-- Use GitHub MCP tools for every GitHub read and write. Do not use a GitHub
-  command-line client or direct HTTP API calls. If the required GitHub MCP
-  operations are unavailable, stop and report the missing capability.
+- Keep Mattermost updates concise and in the user's language; relay only
+  concrete specialist milestones. Clone missing repositories under `codebases/`,
+  preserve unrelated changes, and use an isolated worktree when needed. Use
+  GitHub MCP for all GitHub reads and writes; if required operations are absent,
+  stop and report them.
 
 ## Resolve context
 
