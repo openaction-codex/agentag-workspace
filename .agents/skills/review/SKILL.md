@@ -22,13 +22,10 @@ multiple plausible PRs.
 
 ## Operating rules
 
-- Follow the model route and delegation rules in the workspace `AGENTS.md`.
 - Write concise Mattermost updates in the user's language. When a specialist
   is involved, relay only concrete milestone notes.
 - Clone missing repositories under `codebases/`. Preserve unrelated changes;
   use an isolated worktree when checkout would disturb them.
-- Ask before destructive or irreversible actions. Reading GitHub and Linear
-  and submitting the requested GitHub review are in scope.
 
 ## Resolve context
 
