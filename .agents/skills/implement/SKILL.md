@@ -21,6 +21,10 @@ repository, or a product decision cannot be resolved unambiguously.
 - Clone missing repositories under `codebases/`. Default to
   `openaction-europe` only when the issue gives no stronger repository signal.
 - Preserve unrelated changes and never push directly to `main`.
+- Use GitHub MCP tools for every GitHub read and write, including pull request
+  creation and updates, comments, checks, statuses, and deployments. Do not use
+  a GitHub command-line client or direct HTTP API calls. If a required GitHub
+  MCP operation is unavailable, stop and report the missing capability.
 
 ## Workflow
 
@@ -48,14 +52,16 @@ repository, or a product decision cannot be resolved unambiguously.
    generated artifacts, and accidental secrets. Reconcile it with the issue
    and specification.
 9. Commit with the issue ID, push the feature branch, and open a draft GitHub
-   PR whose title contains the issue ID. Use only the exact PR body format
-   below.
-10. Monitor required CI and Coolify preview checks. Diagnose failures, fix
+   PR through the GitHub MCP pull-request creation operation. Include the issue
+   ID in its title and use only the exact PR body format below.
+10. Monitor required CI and Coolify preview checks through GitHub MCP check,
+    status, deployment, and PR-comment read operations. Diagnose failures, fix
     in-scope problems, and push follow-up commits. Retrieve and verify the four
     preview URLs using the rules below.
-11. When required checks pass and all four preview URLs are verified, mark the
-    PR ready, link it to Linear, and post exactly one Linear comment using the
-    format below.
+11. When required checks pass and all four preview URLs are verified, use the
+    GitHub MCP pull-request update operation to mark the PR ready. Link the PR
+    and post exactly one Linear comment through Linear tools using the format
+    below.
 12. Move the issue to `In review`. Return a concise Mattermost summary with
     issue and PR links, behavior delivered, tests run, CI state, preview state,
     and any follow-up.
@@ -135,12 +141,12 @@ awk '
 
 ## Coolify preview URLs
 
-Retrieve URLs only from evidence tied to the current PR and head commit, such
-as GitHub deployment environments, successful Coolify/CI check output, or a
-Coolify bot comment on the PR. Match each URL to its explicitly named app.
-Open or probe every URL and verify that it is a reachable preview for the
-current PR. Never derive a hostname from another app, copy a production URL,
-or guess a URL from naming conventions.
+Retrieve URLs only through GitHub MCP reads of evidence tied to the current PR
+and head commit, such as deployment environments, successful Coolify/CI check
+output, or a Coolify bot comment on the PR. Match each URL to its explicitly
+named app. Open or probe every URL and verify that it is a reachable preview
+for the current PR. Never derive a hostname from another app, copy a production
+URL, or guess a URL from naming conventions.
 
 Require verified preview URLs for all four apps: `console`, `public`,
 `platform`, and `mobilisation`. If any URL is missing, ambiguous, unreachable,
