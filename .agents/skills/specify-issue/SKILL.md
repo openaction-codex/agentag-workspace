@@ -1,9 +1,9 @@
 ---
-name: specify
+name: specify-issue
 description: Prepare and save an implementation-ready technical specification for one or more Linear issues. Use when asked from Mattermost to specify, scope, or technically analyze Linear issue IDs, including reading issue discussions and the relevant OpenAction codebase, updating the issue body, and moving it to "Spec to review".
 ---
 
-# Specify Linear Issues
+# Specify Linear Issues for Implementation
 
 Turn Linear issues into implementation-ready specifications and save them in
 Linear.
@@ -19,32 +19,34 @@ unambiguously.
 - Keep Mattermost updates concise and in the user's language; relay only
   concrete specialist milestones. Clone missing repositories under `codebases/`
   (default: `openaction-europe`), preserve unrelated changes, and never push
-  directly to `main`.
+  directly to `main`. Use GitHub MCP for all GitHub reads and writes; if a
+  required operation is unavailable, stop and report it.
 
 ## Workflow
 
 1. Read each issue's title, body, status, labels, links, attachments, and all
    comments. Treat later clarifications as authoritative.
-2. Resolve the relevant repository from issue context and links. Fetch the
+2. Move the issue to `Spec in progress`.
+3. Resolve the relevant repository from issue context and links. Fetch the
    latest `main` without discarding local work.
-3. Inspect the implementation on `origin/main`, including adjacent behavior,
+4. Inspect the implementation on `origin/main`, including adjacent behavior,
    tests, migrations, configuration, and established conventions.
-4. Extract only implementation-relevant facts and decisions that are not
+5. Extract only implementation-relevant facts and decisions that are not
    already clear from the issue: current code paths, ownership boundaries,
    contracts, constraints, risks, edge cases, and focused validation. Ask the
    user only when a decision materially changes the scope or product behavior.
-5. Draft one concise English specification per issue with the template below.
+6. Draft one concise English specification per issue with the template below.
    Complement the issue; do not repeat its title, problem statement, requested
    behavior, acceptance criteria, customer context, or discussion. Keep lines
    near 80 characters when practical.
-6. Re-read the issue and relevant code to verify every file reference and
+7. Re-read the issue and relevant code to verify every file reference and
    technical claim.
-7. Preserve the existing issue body. Replace an existing generated
+8. Preserve the existing issue body. Replace an existing generated
    specification for that issue; otherwise append the new one in a fenced
    Markdown block. Do not post the specification as a comment.
-8. Move the issue to `Spec to review` only after its body update succeeds.
-9. Report a concise Mattermost summary with issue links, repository, important
-   decisions, and any unresolved question.
+9. Move the issue to `Human: Spec to review` only after its body update succeeds.
+10. Report a concise Mattermost summary with issue links, repository, important
+    decisions, and any unresolved question.
 
 ## Specification template
 
@@ -88,6 +90,8 @@ Repository: <owner/repository>
   update>
 * `<focused command>`: <what it validates; include only commands verified for
   this repository>
+* <Mention Coolify preview validation only for `citipo/openaction-europe`.
+  Other projects must not depend on preview URLs.>
 
 # Scope and open decisions
 
@@ -98,7 +102,7 @@ Repository: <owner/repository>
 ```
 
 Do not repeat the generic branch, formatting, PR, CI, or Linear lifecycle in
-the generated specification. The `implement` skill owns that workflow and
+the generated specification. The `implement-issue` skill owns that workflow and
 uses this specification for issue-specific technical guidance.
 
 ## Quality check

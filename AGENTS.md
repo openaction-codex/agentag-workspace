@@ -34,9 +34,10 @@ steering materially changes the scope or complexity; if it changes, state the ne
 
 Use these routes:
 
-* Use GPT-5.6 Luna max directly in the main agent for questions about the current implementation or product: how 
+* Use GPT-5.6 Luna max directly in the main agent for questions about the current implementation or product: how
   something works, the current logic of a feature, or whether a known situation can occur. Inspect evidence yourself
   and answer without delegation.
+* Use GPT-5.6 Luna max directly in the main agent for PR browser validation.
 * Use the `sol-xhigh` subagent for any coding tasks, such as technical specifications, features implementations, 
   PR reviews, bug fixes, debugging, refactors, architecture, or implementation plans.
 * For other tasks, use GPT-5.6 Luna max directly when they are simple; use the `terra-max` subagent for broad, 
@@ -57,6 +58,8 @@ do not let a subagent communicate directly with the end user, push, delete, over
 The local machine you are running on has access to:
 
 * `git` CLI for local repository operations
+* `playwright-cli` for browser automation and Europe Coolify preview validation. Check that it is callable before use;
+  if it is unavailable, report the browser task as blocked rather than installing it or silently substituting another tool.
 * the key repositories you can clone (to implement features or analyse the codebase, by default use openaction-europe):
   * git@github.com:citipo/openaction-europe.git
   * git@github.com:citipo/openaction-ecologistes.git
@@ -80,5 +83,5 @@ review or declaring the implementation ready.
 When working on a task that require cloning one or more repositories, clone them in the current directory, under
 a `codebases` directory, and work there.
 
-Additional skills are available in .agents in the current directory when you want to apply specific workflows, 
-such as how to write a technical specification or how to review a PR.
+Additional skills are available in `.agents/skills` in the current directory for specific workflows, including
+`specify-issue`, `implement-issue`, `review-pr`, `validate-pr`, and `playwright-cli`.

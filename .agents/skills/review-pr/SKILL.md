@@ -1,9 +1,9 @@
 ---
-name: review
+name: review-pr
 description: "Review an OpenAction change from either a Linear issue ID or a GitHub pull request number or URL. Use when asked from Mattermost to review, analyze, or check an issue's implementation or PR: resolve the linked issue and repository, inspect the code and GitHub context, run focused validation when useful, publish actionable findings on GitHub, and return a concise Mattermost summary."
 ---
 
-# Review an Issue or Pull Request
+# Review a Linear Issue or Pull Request
 
 Review one implementation deeply, publish actionable findings on GitHub, and
 summarize the result in Mattermost.
@@ -43,7 +43,7 @@ accept a mode override.
    read operation. Record the base revision and current head SHA.
 2. Use GitHub MCP read operations to inspect PR metadata, the full diff,
    changed files, commits, reviews, inline threads, conversation, check runs,
-   statuses, and deployments.
+   statuses, and deployments when relevant.
 3. Inspect relevant code outside the diff to verify call sites, contracts,
    migrations, permissions, and established patterns.
 4. Analyze the change with `references/review-criteria.md`. Prefer concrete
@@ -74,12 +74,16 @@ Use the installed GitHub MCP tools whose schemas provide these operations:
 - get a pull request with base/head revisions and metadata;
 - list or retrieve changed files and the complete diff;
 - list commits, reviews, review threads, and conversation comments;
-- list check runs, statuses, and deployments for the PR head SHA;
+- list check runs and statuses for the PR head SHA;
+- list deployments for the PR head SHA when the repository uses them;
 - submit a pull request review, including inline comments and its event mode.
 
 Follow each installed tool's schema rather than assuming parameter or enum
 names. Paginate until all files, commits, and comments are retrieved. Do not
-silently omit evidence when an operation is missing.
+silently omit evidence when an operation is missing. Coolify preview URLs are
+expected only for `citipo/openaction-europe`; for other repositories, do not
+wait for them, request changes because they are absent, or include them in the
+Mattermost summary.
 
 ## Review format
 
