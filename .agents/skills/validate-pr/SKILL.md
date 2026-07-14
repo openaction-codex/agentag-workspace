@@ -1,14 +1,14 @@
 ---
 name: validate-pr
-description: "Validate an OpenAction implementation from a Linear issue ID or GitHub pull request number or URL. Use when asked to test, QA, or validate a PR through its French test journey: route non-Europe issues directly to Human: To review, use Europe Coolify preview URLs for real functional validation, execute the flow with playwright-cli, post matching French GitHub and Linear comments, and report evidence as passed, failed, or blocked."
+description: "Validate an OpenAction implementation from a Linear issue ID or GitHub pull request number or URL. Use when asked to test, QA, or validate a PR through its French test journey: immediately mark the Linear issue as Validation in progress, route non-Europe issues to Human: To review, use Europe Coolify preview URLs for real functional validation, execute the flow with playwright-cli, post matching French GitHub and Linear comments, and report evidence as passed, failed, or blocked."
 ---
 
 # Validate a Pull Request
 
 Validate Europe implementations against their accepted behavior in the Coolify
 preview. For every other repository, skip browser validation because Coolify
-preview URLs are not available and move the Linear issue directly to
-`Human: To review`.
+preview URLs are not available and move the Linear issue to `Human: To review`
+after the initial validation status transition.
 
 ## Inputs
 
@@ -33,46 +33,45 @@ Ask the user to choose only when the input resolves to multiple plausible PRs.
   substitute `npx`, a browser connector, `curl`, or another automation tool.
 - For Europe, this skill updates Linear status, posts one GitHub PR comment,
   posts one Linear comment with the same content, and then moves Linear to
-  `Human: To review`. For non-Europe repositories, move Linear directly to
-  `Human: To review` and do not post preview-validation comments.
+  `Human: To review`. For non-Europe repositories, move Linear to
+  `Human: To review` after the initial status transition and do not post
+  preview-validation comments.
 - Never test on production or with production data. Only work on the preview 
   environments (which are safe, no risky capability).
 - Do not modify implementation code while validating. When local inspection is
   needed, use the relevant repository checkout, preserve unrelated work, and
   inspect the PR head without changing it.
 
-## Resolve the validation context
+## Workflow
 
-1. For a Linear input, read the complete issue, comments, links, and
-   attachments. Resolve its implementation PR and repository from verified
-   links. For a PR input, resolve the repository and read its linked Linear
-   issue when present.
-2. Read the PR metadata, complete body, current head SHA, changed files and
+1. Resolve only the Linear issue identity. For a PR input, read the minimum PR
+   metadata and verified links needed to find its Linear issue. If no issue can
+   be resolved, stop and ask for its ID. Immediately move the resolved issue
+   to `Validation in progress` and confirm the update succeeded before loading
+   the full validation context or performing any validation.
+2. Read the complete Linear issue, comments, links, and attachments. Resolve
+   its implementation PR and repository from verified links.
+3. Read the PR metadata, complete body, current head SHA, changed files and
    diff, conversation comments, checks, and statuses. Determine whether the
    repository is `citipo/openaction-europe`. Read deployments or Coolify
    comments only when they are relevant. Retrieve complete paginated results.
-3. Treat the latest Linear clarification as accepted behavior. Record any
+4. Treat the latest Linear clarification as accepted behavior. Record any
    disagreement among Linear, the PR description, and the current
    implementation before testing.
-4. Require a resolved Linear issue before changing status or posting the Linear
-   validation comment. If a PR input has no linked Linear issue, stop and ask
-   for the issue ID.
 5. If the repository is not `citipo/openaction-europe`, move the Linear issue
-   directly to `Human: To review`, report that Coolify validation is not
-   applicable for this project, and stop. Do not wait for preview URLs, run a
-   substitute browser validation, or mention preview URLs in the summary.
+   to `Human: To review`, report that Coolify validation is not applicable for
+   this project, and stop. Do not wait for preview URLs, run a substitute
+   browser validation, or mention preview URLs in the summary.
 
 ## Europe validation lifecycle
 
 For `citipo/openaction-europe` only:
 
-1. Move the Linear issue to `Validation in progress` before opening the
-   preview environment.
-2. Execute the validation workflow below against the current PR head and
+1. Execute the validation workflow below against the current PR head and
    Coolify preview URLs.
-3. Post one GitHub PR comment and one Linear comment with exactly the same
+2. Post one GitHub PR comment and one Linear comment with exactly the same
    French validation summary.
-4. Move the Linear issue to `Human: To review` whether the validation passed,
+3. Move the Linear issue to `Human: To review` whether the validation passed,
    failed, or was blocked. The comments must make failures and blockers clear.
 
 ## Recover or design the test journey
