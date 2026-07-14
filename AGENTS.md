@@ -40,7 +40,7 @@ When a subagent route is selected, delegate the core specialist work to exactly 
 
 The local machine you are running on has access to:
 
-* `git` CLI and `gh` to interact with GitHub
+* `git` CLI for local repository operations
 * the key repositories you can clone (to implement features or analyse the codebase, by default use openaction-europe):
   * git@github.com:citipo/openaction-europe.git
   * git@github.com:citipo/openaction-ecologistes.git
@@ -50,6 +50,37 @@ The local machine you are running on has access to:
   * git@github.com:citipo/lesecologistes.git
 * Linear MCP for roadmap/tasks management
 * Sentry MCP for production issues debugging
+
+## GitHub MCP operations
+
+A GitHub MCP server is available in the workspace. Consult its installed tool
+schemas before performing GitHub work; using the MCP server as the reference
+for available operations, parameters, and result shapes is likely relevant to
+most repository, pull-request, review, CI, and deployment tasks.
+
+Use GitHub MCP tools for every GitHub read and write. Do not use a GitHub
+command-line client or direct HTTP API calls. If the required GitHub MCP
+capability is unavailable, stop and report the missing capability rather than
+falling back to another GitHub interface.
+
+Depending on the task, use the installed GitHub MCP tools for these operations:
+
+* resolve a repository and retrieve pull-request metadata, including base and
+  head revisions;
+* retrieve changed files, complete diffs, commits, reviews, review threads,
+  conversation comments, and linked resources;
+* retrieve check runs, commit statuses, deployments, and deployment URLs for a
+  specific pull-request head SHA;
+* create or update pull requests, including draft/ready state and body;
+* add pull-request comments or inline review comments;
+* submit one pull-request review with the appropriate event mode;
+* link pull requests to the relevant work item when the connected tool
+  supports that relationship.
+
+Follow each installed tool's schema instead of assuming parameter names or
+enumeration values. Paginate until all relevant results are retrieved, and
+revalidate the pull-request head SHA before publishing a review or declaring
+the implementation ready.
 
 When working on a task that require cloning one or more repositories, clone them in the current directory, under
 a `codebases` directory, and work there.
