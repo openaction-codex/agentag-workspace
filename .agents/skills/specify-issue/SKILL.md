@@ -1,6 +1,6 @@
 ---
 name: specify-issue
-description: Prepare and save an implementation-ready technical specification for one or more Linear issues. Use when asked from Mattermost to specify, scope, or technically analyze Linear issue IDs, including reading issue discussions and the relevant OpenAction codebase, updating the issue body, and moving it to "Spec to review".
+description: Prepare and save an implementation-ready technical specification for one or more Linear issues. Use when asked to specify, scope, or technically analyze Linear issue IDs, including reading issue discussions and the relevant OpenAction codebase, updating the issue body, and moving it to "Spec to review".
 ---
 
 # Specify Linear Issues for Implementation
@@ -16,11 +16,13 @@ unambiguously.
 
 ## Operating rules
 
-- Keep Mattermost updates concise and in the user's language; relay only
-  concrete specialist milestones. Clone missing repositories under `codebases/`
-  (default: `openaction-europe`), preserve unrelated changes, and never push
-  directly to `main`. Use GitHub MCP for all GitHub reads and writes; if a
-  required operation is unavailable, stop and report it.
+- Follow the repository's `AGENTS.md` and local contribution instructions.
+- Run from the relevant repository checkout and preserve unrelated changes.
+  Treat code inspection as read-only: do not edit code or push branches while
+  preparing a specification.
+- Use the GitHub and Linear access available in the local environment. Require
+  enough access to read and update every issue and inspect linked context; stop
+  and report a missing capability that prevents completion.
 
 ## Workflow
 
@@ -45,8 +47,8 @@ unambiguously.
    specification for that issue; otherwise append the new one in a fenced
    Markdown block. Do not post the specification as a comment.
 9. Move the issue to `Human: Spec to review` only after its body update succeeds.
-10. Report a concise Mattermost summary with issue links, repository, important
-    decisions, and any unresolved question.
+10. Return a concise summary with issue links, repository, important decisions,
+    and any unresolved question.
 
 ## Specification template
 

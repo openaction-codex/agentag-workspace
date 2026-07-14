@@ -143,12 +143,12 @@ await expect(page.getByRole('navigation')).toMatchAriaSnapshot(`
 
 Goal: produce a spec file (e.g. `specs/<feature>.plan.md`) that enumerates the scenarios to test. **Always** write the spec to a file.
 
-### 1.1 Prerequisite: workspace
+### 1.1 Prerequisite: project
 
-Check the workspace has Playwright installed before anything else:
+Check that the project has Playwright installed before anything else:
 
 ```bash
-# Either of these confirms a workspace:
+# Either of these confirms a Playwright project:
 test -f playwright.config.ts || test -f playwright.config.js
 npx --no-install playwright --version
 ```

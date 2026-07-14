@@ -1,6 +1,6 @@
 ---
 name: validate-pr
-description: "Validate an OpenAction implementation from a Linear issue ID or GitHub pull request number or URL. Use when asked from Mattermost to test, QA, or validate a PR through its French test journey: route non-Europe issues directly to Human: To review, use Europe Coolify preview URLs for real functional validation, execute the flow with playwright-cli, post matching French GitHub and Linear comments, and report evidence as passed, failed, or blocked."
+description: "Validate an OpenAction implementation from a Linear issue ID or GitHub pull request number or URL. Use when asked to test, QA, or validate a PR through its French test journey: route non-Europe issues directly to Human: To review, use Europe Coolify preview URLs for real functional validation, execute the flow with playwright-cli, post matching French GitHub and Linear comments, and report evidence as passed, failed, or blocked."
 ---
 
 # Validate a Pull Request
@@ -22,9 +22,10 @@ Ask the user to choose only when the input resolves to multiple plausible PRs.
 
 ## Operating rules
 
-- Keep Mattermost updates concise and in the user's language. Use GitHub MCP
-  for every GitHub read or write and Linear tools for Linear context. Never use
-  a CLI or direct HTTP API for GitHub.
+- Follow the repository's `AGENTS.md` and local contribution instructions.
+- Use the GitHub and Linear access available in the local environment. Require
+  complete PR and issue context plus the ability to publish the required
+  comments and status updates; stop and report a missing capability.
 - Load and follow the `playwright-cli` skill for all browser navigation,
   interaction, snapshots, console inspection, and network inspection. Before
   opening a preview, verify that `command -v playwright-cli` succeeds. If it
@@ -36,9 +37,9 @@ Ask the user to choose only when the input resolves to multiple plausible PRs.
   `Human: To review` and do not post preview-validation comments.
 - Never test on production or with production data. Only work on the preview 
   environments (which are safe, no risky capability).
-- Do not modify implementation code while validating. Clone a missing
-  repository under `codebases/` only when local inspection is needed, preserve
-  unrelated work, and inspect the PR head without changing it.
+- Do not modify implementation code while validating. When local inspection is
+  needed, use the relevant repository checkout, preserve unrelated work, and
+  inspect the PR head without changing it.
 
 ## Resolve the validation context
 
@@ -46,11 +47,10 @@ Ask the user to choose only when the input resolves to multiple plausible PRs.
    attachments. Resolve its implementation PR and repository from verified
    links. For a PR input, resolve the repository and read its linked Linear
    issue when present.
-2. Through GitHub MCP, read the PR metadata, complete body, current head SHA,
-   changed files and diff, conversation comments, checks, and statuses.
-   Determine whether the repository is `citipo/openaction-europe`. Read
-   deployments or Coolify comments only when they are relevant. Paginate
-   complete results.
+2. Read the PR metadata, complete body, current head SHA, changed files and
+   diff, conversation comments, checks, and statuses. Determine whether the
+   repository is `citipo/openaction-europe`. Read deployments or Coolify
+   comments only when they are relevant. Retrieve complete paginated results.
 3. Treat the latest Linear clarification as accepted behavior. Record any
    disagreement among Linear, the PR description, and the current
    implementation before testing.
@@ -96,18 +96,17 @@ For `citipo/openaction-europe` only:
 
 ## Resolve the target environment
 
-1. For `citipo/openaction-europe`, read the Coolify bot comment on the
-   resolved PR through GitHub MCP. Accept only URLs explicitly present in a
-   comment for that PR and current head. Never derive, edit, copy from another
-   PR, or guess a preview URL.
+1. For `citipo/openaction-europe`, read the Coolify bot comment on the resolved
+   PR. Accept only URLs explicitly present in a comment for that PR and current
+   head. Never derive, edit, copy from another PR, or guess a preview URL.
 2. For Europe, match each URL to its named application, such as `console`,
    `public`, `platform`, or `mobilisation`. Use every app required by the
    journey and regression paths; do not require an unrelated app.
 3. Mark a path blocked when its required Europe Coolify URL is missing,
    ambiguous, stale, unreachable, or unsafe. Report the exact missing evidence.
 4. Use only an already authorized login or browser state. Never expose
-   credentials in commands, snapshots, GitHub, Linear, or Mattermost. Mark an
-   authenticated path blocked when the required access is unavailable.
+   credentials in commands, snapshots, GitHub, Linear, or the final summary.
+   Mark an authenticated path blocked when the required access is unavailable.
 
 ## Execute the journey with playwright-cli
 
@@ -160,7 +159,7 @@ fixture, URL, or a required path was unavailable.
 
 ## Report evidence
 
-Return a concise Mattermost report in the user's language containing:
+Return a concise report containing:
 
 ```markdown
 Status: PASSED | FAILED | BLOCKED
@@ -182,11 +181,10 @@ External publication: GitHub PR comment and Linear comment posted
 
 ## Europe GitHub and Linear comments
 
-Before publishing comments, re-read the PR head SHA through GitHub MCP. If it
-changed, refresh context and rerun affected paths before writing.
+Before publishing comments, re-read the remote PR head SHA. If it changed,
+refresh context and rerun affected paths before writing.
 
-Post the same French Markdown body through GitHub MCP as a PR comment and
-through Linear tools as a Linear comment:
+Post the same French Markdown body as a GitHub PR comment and a Linear comment:
 
 ```markdown
 ## Résultat de validation

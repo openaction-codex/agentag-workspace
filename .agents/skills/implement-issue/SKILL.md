@@ -1,6 +1,6 @@
 ---
 name: implement-issue
-description: "Implement an OpenAction Linear issue end to end from Mattermost. Use when given a Linear issue ID and asked to build, fix, or deliver it: read the full issue and any technical specification, inspect or clone the relevant repository, implement and test the change, open a GitHub pull request, update Linear, and report the result."
+description: "Implement an OpenAction Linear issue end to end. Use when given a Linear issue ID and asked to build, fix, or deliver it: read the full issue and any technical specification, inspect the relevant repository, implement and test the change, open a GitHub pull request, update Linear, and report the result."
 ---
 
 # Implement a Linear Issue
@@ -16,11 +16,13 @@ repository, or a product decision cannot be resolved unambiguously.
 
 ## Operating rules
 
-- Keep Mattermost updates concise and in the user's language; relay only
-  concrete specialist milestones. Clone missing repositories under `codebases/`
-  (default: `openaction-europe`), preserve unrelated changes, and never push
-  directly to `main`. Use GitHub MCP for all GitHub reads and writes; if a
-  required operation is unavailable, stop and report it.
+- Follow the repository's `AGENTS.md` and local contribution instructions.
+- Run from the relevant repository checkout. Preserve unrelated changes, use
+  an isolated worktree when the current checkout is not clean, and never push
+  directly to `main`.
+- Use the GitHub and Linear access available in the local environment. Require
+  enough access to read and update the issue, create or update the PR, and
+  inspect CI; stop and report a missing capability that prevents completion.
 
 ## Workflow
 
@@ -36,37 +38,35 @@ repository, or a product decision cannot be resolved unambiguously.
    behavior or scope. Use the `specify-issue` skill as reference on how to
    do the specification.
 4. Move the issue to `Implementation in progres`.
-5. Fetch the latest `main`, verify the worktree state, and create a branch from
-   `origin/main`, normally `codex/<lowercase-issue-id>-<short-slug>`.
+5. Fetch the latest remote `main`, verify the worktree state, and create a
+   branch from it using the repository's branch naming convention.
 6. Inspect existing patterns and focused tests before editing. Implement the
    complete change, including migrations, permissions, translations,
    observability, or compatibility work when relevant.
-7. Add or update focused tests. Run the tests and formatters required by the
-   specification and affected repository. Never run the full PHP test suite;
-   use individual classes or methods. Fix in-scope failures.
+7. Add or update appropriate tests. Run the tests and formatters required by
+   the specification and repository instructions. Fix in-scope failures.
 8. Review the diff for correctness, security, data safety, unintended scope,
    generated artifacts, and accidental secrets. Reconcile it with the issue
    and specification.
 9. Commit with the issue ID, push the feature branch, and open a draft GitHub
-   PR through the GitHub MCP pull-request creation operation. Include the issue
-   ID in its title and use only the exact PR body format below.
+   PR. Include the issue ID in its title and use only the exact PR body format
+   below.
 10. Use the `review-pr` skill on the draft PR before requesting human review.
     Fix every verified `Blocker` and `Important` issue, rerun the focused
     checks that cover those fixes, commit and push the corrections, and repeat
     the review loop until no `Blocker` or `Important` finding remains. Do not
     block readiness on `Nit` findings unless they reveal product risk.
-11. Monitor required CI through GitHub MCP check and status operations.
-    Diagnose failures, fix in-scope problems, and push follow-up commits. For
-    `citipo/openaction-europe` only, also wait for the Coolify bot PR comment
-    and verify preview URLs using the rules below.
+11. Monitor required CI. Diagnose failures, fix in-scope problems, and push
+    follow-up commits. For `citipo/openaction-europe` only, also wait for the
+    Coolify bot PR comment and verify preview URLs using the rules below.
 12. When required checks pass, and when Europe preview URLs are verified if the
-    repository is `citipo/openaction-europe`, use the GitHub MCP pull-request
-    update operation to mark the PR ready. Link the PR and post exactly one
-    Linear comment through Linear tools using the format below.
-13. Move the issue to `Agent: To validate`. Return a concise Mattermost summary with
-    issue and PR links, behavior delivered, tests run, CI state, Europe preview
-    state only when applicable, and any follow-up. For non-Europe repositories,
-    do not mention preview URLs or wait for them.
+    repository is `citipo/openaction-europe`, mark the PR ready. Link the PR and
+    post exactly one Linear comment using the format below.
+13. Move the issue to the project's configured validation-ready status. Do not
+    assume an automation-specific queue. Return a concise summary with issue
+    and PR links, behavior delivered, tests run, CI state, Europe preview state
+    only when applicable, and any follow-up. For non-Europe repositories, do
+    not mention preview URLs or wait for them.
 
 ## GitHub PR body
 
@@ -93,7 +93,7 @@ client final, sans noms de classes, fichiers, commandes ou détails internes.>
 l'application, la navigation, les interactions, les fixtures de
 test vérifiées et le résultat attendu.>
 
-## Agent continuation context
+## Implementation context
 
 ```markdown
 ### Implementation decisions and approach
@@ -114,7 +114,7 @@ test vérifiées et le résultat attendu.>
 ### Risks and continuation
 
 - Risk: <remaining risk, limitation, or operational concern>
-- Continue with: <specific context and next action for a future agent>
+- Continue with: <specific context and next action for future work>
 ```
 ````
 
@@ -126,13 +126,13 @@ name only verified safe test data and do not reference unavailable Coolify
 preview URLs. Inspect the available fixtures and name the exact fixture or test
 record to use; never invent one or instruct the tester to use production data.
 
-Write the third section in English for future agents. Record every relevant
-implementation decision, approach, rationale, technical detail, deviation,
-validation result, risk, and continuation detail. Omit empty internal
-subsections, but do not move technical content outside the raw Markdown code
-block. Wrap every line inside that block to at most 80 characters, including
-commands and code paths. Check the prepared body before publication; the
-following command must print nothing:
+Write the third section in English for future implementation and review work.
+Record every relevant implementation decision, approach, rationale, technical
+detail, deviation, validation result, risk, and continuation detail. Omit empty
+internal subsections, but do not move technical content outside the raw
+Markdown code block. Wrap every line inside that block to at most 80
+characters, including commands and code paths. Check the prepared body before
+publication; the following command must print nothing:
 
 ```bash
 awk '
@@ -148,7 +148,7 @@ Apply this section only when the resolved repository is
 `citipo/openaction-europe`. For every other repository, skip it entirely: do
 not wait for Coolify, do not look for missing preview URLs, do not keep the PR
 in draft because URLs are absent, and do not include preview URLs in the PR,
-Linear, or Mattermost summary.
+Linear, or final summary.
 
 For Europe, read the Coolify bot comment on the current PR and use only URLs
 explicitly listed there for that PR and head commit. Match each URL to its named
@@ -198,5 +198,5 @@ Before handing off, verify that:
   columns;
 - for Europe, the Linear comment has only the two copied French sections and
   four verified Coolify URLs;
-- for non-Europe repositories, Linear, PR, and Mattermost output does not wait
-  for or mention preview URLs.
+- for non-Europe repositories, Linear, PR, and final output does not wait for
+  or mention preview URLs.
