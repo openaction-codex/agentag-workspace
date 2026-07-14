@@ -2,6 +2,9 @@
 
 Use this checklist while analyzing the PR diff and related context.
 
+Start from the accepted behavior in the linked Linear issue and its latest
+comments. Check both the changed lines and the surrounding implementation.
+
 ## 1. Functional Correctness
 
 - Verify the change solves the stated problem in PR title/body and linked
@@ -55,3 +58,7 @@ Use this checklist while analyzing the PR diff and related context.
 - Nit: optional polish; no material product risk.
 - Question: clarification needed before confidence is high.
 - Praise: highlight effective design, testing, or clarity choices.
+
+Do not inflate severity. Report a finding only when the problem is reproducible
+or supported by a concrete execution path; use a question when missing context
+prevents that conclusion.
