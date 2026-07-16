@@ -28,7 +28,7 @@ unambiguously.
 
 1. Read each issue's title, body, status, labels, links, attachments, and all
    comments. Treat later clarifications as authoritative.
-2. Move the issue to `Spec in progress`.
+2. Move the issue to `Specification in progress`.
 3. Resolve the relevant repository from issue context and links. Fetch the
    latest `main` without discarding local work.
 4. Inspect the implementation on `origin/main`, including adjacent behavior,
@@ -46,7 +46,7 @@ unambiguously.
 8. Preserve the existing issue body. Replace an existing generated
    specification for that issue; otherwise append the new one in a fenced
    Markdown block. Do not post the specification as a comment.
-9. Move the issue to `Human: Spec to review` only after its body update succeeds.
+9. Move the issue to `Spec to review` only after its body update succeeds.
 10. Return a concise summary with issue links, repository, important decisions,
     and any unresolved question.
 

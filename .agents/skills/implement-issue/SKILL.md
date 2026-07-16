@@ -62,11 +62,10 @@ repository, or a product decision cannot be resolved unambiguously.
 12. When required checks pass, and when Europe preview URLs are verified if the
     repository is `citipo/openaction-europe`, mark the PR ready. Link the PR and
     post exactly one Linear comment using the format below.
-13. Move the issue to the project's configured validation-ready status. Do not
-    assume an automation-specific queue. Return a concise summary with issue
-    and PR links, behavior delivered, tests run, CI state, Europe preview state
-    only when applicable, and any follow-up. For non-Europe repositories, do
-    not mention preview URLs or wait for them.
+13. Move the issue to the `To validate` status. Do not assume an automation-specific 
+    queue. Return a concise summary with issue and PR links, behavior delivered, tests 
+    run, CI state, Europe preview state only when applicable, and any follow-up. For 
+    non-Europe repositories, do not mention preview URLs or wait for them.
 
 ## GitHub PR body
 
