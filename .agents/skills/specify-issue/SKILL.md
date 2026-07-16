@@ -58,15 +58,6 @@ only when they add concrete implementation information; do not emit empty
 headings or generic boilerplate.
 
 ```markdown
-# Implementation context
-
-Repository: <owner/repository>
-
-* `<path>` — `<symbol, module, route, schema, or test>`: <verified current
-  behavior, dependency, convention, or invariant relevant to this change>
-* <Describe the current execution/data flow only as needed to explain the
-  implementation design.>
-
 # Implementation design
 
 * `<component or layer>`: <intended change and why it fits the existing
@@ -101,6 +92,15 @@ Repository: <owner/repository>
 * Decision: <non-obvious technical choice and rationale>
 * Open question: <unresolved implementation uncertainty, impact, and who or
   what can resolve it>
+
+# Implementation context
+
+Repository: <owner/repository>
+
+* `<path>` — `<symbol, module, route, schema, or test>`: <verified current
+  behavior, dependency, convention, or invariant relevant to this change>
+* <Describe the current execution/data flow only as needed to explain the
+  implementation design.>
 ```
 
 Do not repeat the generic branch, formatting, PR, CI, or Linear lifecycle in
