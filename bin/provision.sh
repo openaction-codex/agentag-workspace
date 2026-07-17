@@ -87,7 +87,7 @@ as_root env DEBIAN_FRONTEND=noninteractive apt-get update
 as_root env DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y
 as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y \
     apt-transport-https bubblewrap ca-certificates curl git gnupg lsb-release \
-    software-properties-common sqlite3 unzip
+    software-properties-common sqlite3 unzip make
 as_root add-apt-repository -y universe
 as_root apt-get update
 
@@ -117,9 +117,13 @@ export NVM_DIR="${HOME}/.nvm"
 curl -fsSL "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_INSTALL_VERSION}/install.sh" | bash
 # shellcheck disable=SC1091
 source "${NVM_DIR}/nvm.sh"
+nvm install 22
+nvm use 22
+corepack enable
 nvm install "$NODE_MAJOR_VERSION"
 nvm alias default "$NODE_MAJOR_VERSION"
 nvm use "$NODE_MAJOR_VERSION"
+corepack enable
 
 log "Installing PHP ${PHP_VERSION}"
 sury_keyring_package="$(mktemp)"
@@ -208,21 +212,6 @@ touch "${HOME}/.codex/config.toml"
 chmod 600 "${HOME}/.codex/config.toml"
 set_top_level_toml_value "${HOME}/.codex/config.toml" model "\"${CODEX_MODEL}\""
 set_top_level_toml_value "${HOME}/.codex/config.toml" model_reasoning_effort "\"${CODEX_REASONING_EFFORT}\""
-
-if [[ -z "${OPENACTION_METAMCP_TOKEN:-}" ]]; then
-    [[ -t 0 ]] || die "Set ${METAMCP_TOKEN_VAR} before running non-interactively."
-    read -r -s -p "MetaMCP bearer token: " OPENACTION_METAMCP_TOKEN
-    printf '\n'
-fi
-[[ -n "$OPENACTION_METAMCP_TOKEN" ]] || die "The MetaMCP bearer token cannot be empty."
-
-printf 'export %s=%q\n' "$METAMCP_TOKEN_VAR" "$OPENACTION_METAMCP_TOKEN" >> "${HOME}/.bashrc"
-export OPENACTION_METAMCP_TOKEN
-
-codex mcp remove metamcp >/dev/null 2>&1 || true
-codex mcp add metamcp \
-    --url "$METAMCP_URL" \
-    --bearer-token-env-var "$METAMCP_TOKEN_VAR"
 
 log "Installing rtk"
 curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
