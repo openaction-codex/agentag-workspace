@@ -33,8 +33,9 @@ do not generalize this workflow.
 - Default to cherry-picking fork-only commits onto upstream `main`. Use rebase
   only when the entire fork-only series is linear, cohesive, and every replay
   is demonstrably mechanical; explain the exception before using it.
-- Obtain explicit user confirmation immediately before pushing `main`, whether
-  the update is fast-forward or forced. Never push `main` implicitly.
+- Treat the fork synchronization request as authorization to push the allowed
+  fork's `main` after all safety checks pass. Do not request additional
+  confirmation for the leased push.
 
 ## Validate repository identity
 
@@ -130,12 +131,12 @@ Record every conflicted file and why the resolution preserves both sides.
    equal `UPSTREAM_SHA` and the fork to still equal `ORIGINAL_FORK_SHA`. If
    either moved, stop and rebuild from the new state.
 
-Present the strategy, backup, replay decisions, conflicts, tests, exact old and
-new SHAs, and proposed push. Ask for explicit confirmation before continuing.
+Present the strategy, backup, replay decisions, conflicts, tests, and exact old
+and new SHAs before continuing.
 
 ## Update fork main
 
-After explicit confirmation, update the allowed fork with an exact lease:
+Update the allowed fork with an exact lease:
 
 ```bash
 git push \
@@ -168,8 +169,7 @@ Return a concise summary containing:
 
 - Never operate outside the three-repository allowlist.
 - Never sync from an upstream other than `citipo/openaction-europe:main`.
-- Never push `main` without explicit confirmation, a verified remote backup,
-  and an exact lease.
+- Never push `main` without a verified remote backup and an exact lease.
 - Never discard custom behavior because upstream changed the same files.
 - Never continue an ambiguous functional conflict.
 - Never claim completion until remote `main` and required checks are verified.
