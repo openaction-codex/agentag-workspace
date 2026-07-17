@@ -33,6 +33,9 @@ do not generalize this workflow.
 - Default to cherry-picking fork-only commits onto upstream `main`. Use rebase
   only when the entire fork-only series is linear, cohesive, and every replay
   is demonstrably mechanical; explain the exception before using it.
+- Never run a full local test suite. Validate with the smallest relevant set
+  of specific test cases and targeted formatters or static checks needed to
+  prove that conflicted and replayed code was integrated correctly.
 - Treat the fork synchronization request as authorization to push the allowed
   fork's `main` after all safety checks pass. Do not request additional
   confirmation for the leased push.
@@ -125,8 +128,11 @@ Record every conflicted file and why the resolution preserves both sides.
    fork behavior checklist and remove accidental drift or conflict artifacts.
 4. Verify all applicable fork PR and Linear acceptance criteria as well as the
    relevant upstream behavior.
-5. Run the tests and formatters required by the affected areas and the
-   repository's local contribution instructions.
+5. Run only focused test cases that exercise affected fork behavior, relevant
+   upstream behavior, every conflicted path, and contracts changed by conflict
+   resolution. Run targeted formatters or static checks for touched files when
+   useful. Never run a full test suite locally, even as a general repository
+   default; rely on required CI for broader coverage.
 6. Re-read both remote `main` tips independently. Require upstream to still
    equal `UPSTREAM_SHA` and the fork to still equal `ORIGINAL_FORK_SHA`. If
    either moved, stop and rebuild from the new state.
@@ -149,8 +155,14 @@ Then:
 1. Fetch the fork and verify its remote `main` equals the validated sync head.
 2. Verify the backup ref remains recoverable.
 3. Re-read the remote branch and required CI checks.
-4. Monitor required checks when available. Diagnose and report failures; do not
-   claim a successful synchronization while required checks are failing.
+4. Monitor all required checks through a terminal result. If a check fails,
+   inspect its logs, fix failures caused by the replay, conflict resolution, or
+   fork integration, run the narrowest local regression test covering the
+   fix, update fork `main` with the same backup and exact-lease safety checks,
+   and monitor CI again. Repeat until required CI passes. For an unrelated
+   infrastructure, flaky, or upstream failure that cannot be fixed safely in
+   fork scope, retry when appropriate and report the precise blocker without
+   claiming the synchronization succeeded.
 
 ## Output
 
@@ -163,7 +175,8 @@ Return a concise summary containing:
 - commits reapplied, changed, skipped, or dropped with reasons;
 - conflicts and resolution decisions;
 - tests and behavior verification;
-- push and post-push check status, or the precise blocker.
+- CI failures diagnosed and fixes applied;
+- push and final post-push check status, or the precise blocker.
 
 ## Safety bar
 
