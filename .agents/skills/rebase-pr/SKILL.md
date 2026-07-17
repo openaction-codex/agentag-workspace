@@ -29,9 +29,9 @@ the PR to target `main`; stop for any other base branch.
   history; stop and report missing context that prevents safe validation.
 - Re-read the PR head SHA immediately before the final push. Never overwrite a
   head that changed during the operation.
-- Obtain explicit user confirmation immediately before force-pushing the
-  original PR branch. Preparing and validating the clean branch does not
-  require confirmation.
+- Treat the rebase request as authorization to force-push the original PR
+  branch with an exact lease after all safety checks pass. Do not request
+  additional confirmation for that `--force-with-lease` push.
 
 ## Resolve intent
 
@@ -122,8 +122,7 @@ Record every conflicted file and the reason for its resolution.
 ## Update the PR branch
 
 After validation, present the intended push, backup ref, kept/dropped commits,
-conflict decisions, and test results, then ask for confirmation. Only after an
-explicit confirmation:
+conflict decisions, and test results, then:
 
 1. Force-push the clean branch to the original head branch with an exact lease:
 
@@ -154,7 +153,7 @@ Return a concise summary containing:
 ## Safety bar
 
 - Never rewrite without a verified local and remote backup.
-- Never force-push without explicit confirmation and an exact lease.
+- Never force-push without an exact lease.
 - Never overwrite a PR head that moved after analysis.
 - Never drop behavior solely because a cherry-pick is difficult.
 - Never claim success until the remote PR state matches the validated result.
