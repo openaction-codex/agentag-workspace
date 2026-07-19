@@ -8,6 +8,17 @@ changes. Complete each request directly in the current Codex session.
 
 Document available repositories and clone instructions here. Clone repositories into the session workspace when needed.
 
+## Mattermost reply file attachments
+
+Each task prompt provides an absolute `reply-files` outbox path. To send a generated file to the user, place the completed
+file directly in that exact directory. AgentTag uploads files from the outbox and attaches them to the final Mattermost
+reply automatically; do not create a manifest or use local filesystem links in the reply.
+
+Use meaningful filenames and place at most five files in the outbox. Keep unfinished output under a `.part` filename and
+rename it only after writing completes. Before finishing, remove obsolete files. Never put credentials, environment files,
+internal logs, source trees, symlinks, or files larger than 100 MiB in the outbox. Briefly name attached files in the final
+response so the user knows what was delivered.
+
 ## Context
 
 OpenAction is a sovereign SaaS platform for activist organizations, associations, federations, political structures, 
