@@ -7,7 +7,10 @@ End-to-end workflow for authoring and maintaining Playwright tests with `playwri
 - **Generate** — turn a spec into Playwright test files. Update the spec if it's vague or stale.
 - **Heal** — diagnose failing tests, fix the code, reconcile the spec with reality.
 
-Plan / generate / heal lean on the same mechanic: run `npx playwright test --debug=cli` in the background, then `playwright-cli attach tw-XXXX` to drive the paused page interactively. See [playwright-tests.md](playwright-tests.md) for the debug/attach mechanics.
+Plan / generate / heal lean on the same mechanic: run
+`npx playwright test <individual-spec-or-case> --debug=cli` in the background,
+then `playwright-cli attach tw-XXXX` to drive the paused page interactively.
+See [playwright-tests.md](playwright-tests.md) for the debug/attach mechanics.
 
 ---
 
@@ -369,8 +372,12 @@ Goal: fix failing tests, and update the spec if the app's intended behaviour cha
 
 ### 3.1 Find failing tests
 
+Use the failed CI job list and its bounded logs, or the task's known affected
+spec files, to identify failures. Follow `~/.codex/AGENTS.md`; never discover
+failures by running the full local suite.
+
 ```bash
-PLAYWRIGHT_HTML_OPEN=never npx playwright test
+PLAYWRIGHT_HTML_OPEN=never npx playwright test tests/<group>/<scenario>.spec.ts
 ```
 
 Record the list of failing `<file>:<line>` entries and process them one at a time. Do not attempt parallel fixes — shared state and the single CLI session make that fragile.

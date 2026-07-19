@@ -51,6 +51,19 @@ fetching and pushing. An exact `git push --force-with-lease=<ref>:<expected-sha>
 is authorized when a task requires rewriting a branch and must not require
 additional confirmation. Never use an unleased `--force` push.
 
+## Testing, Git, and CI
+
+The global testing and GitHub CI resource policy in `~/.codex/AGENTS.md` is
+authoritative for every workspace workflow involving local tests, commits,
+pushes, or CI. Follow its focused-test strategy, post-push waiting cadence,
+GitHub MCP run/job inspection order, and bounded failed-job log retrieval.
+Never run a full local test suite or fetch complete CI logs or log archives.
+
+Repository instructions and skills may summarize the policy, select narrower
+tests, or add safety checks, but must not weaken or bypass it. When a workflow
+pushes a new head, monitor that exact commit using the global policy before
+declaring it ready or continuing to a dependent lifecycle step.
+
 When working on a task that require cloning one or more repositories, clone them in the current directory, under
 a `codebases` directory, and work there.
 

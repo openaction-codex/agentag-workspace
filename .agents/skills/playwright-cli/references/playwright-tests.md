@@ -1,13 +1,16 @@
 # Running Playwright Tests
 
-To run Playwright tests, use the `npx playwright test` command, or a package manager script. To avoid opening the interactive html report, use `PLAYWRIGHT_HTML_OPEN=never` environment variable.
+Follow the global testing policy in `~/.codex/AGENTS.md`: never run the full
+Playwright suite locally. Select the individual spec file or test case involved
+in the task. To avoid opening the interactive HTML report, use the
+`PLAYWRIGHT_HTML_OPEN=never` environment variable.
 
 ```bash
-# Run all tests
-PLAYWRIGHT_HTML_OPEN=never npx playwright test
+# Run one spec file
+PLAYWRIGHT_HTML_OPEN=never npx playwright test tests/<path>/<spec>.spec.ts
 
-# Run all tests through a custom npm script
-PLAYWRIGHT_HTML_OPEN=never npm run special-test-command
+# Run one test case by title when the repository supports it
+PLAYWRIGHT_HTML_OPEN=never npx playwright test tests/<path>/<spec>.spec.ts -g '<test title>'
 ```
 
 # Debugging Playwright Tests
@@ -19,8 +22,8 @@ To debug a failing Playwright test, run it with `--debug=cli` option. This comma
 Once instructions containing a session name are printed, use `playwright-cli` to attach the session and explore the page.
 
 ```bash
-# Run the test
-PLAYWRIGHT_HTML_OPEN=never npx playwright test --debug=cli
+# Run the individual test
+PLAYWRIGHT_HTML_OPEN=never npx playwright test tests/<path>/<spec>.spec.ts:<line> --debug=cli
 # ...
 # ... debugging instructions for "tw-abcdef" session ...
 # ...

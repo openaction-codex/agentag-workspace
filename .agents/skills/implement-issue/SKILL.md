@@ -16,6 +16,9 @@ repository, or a product decision cannot be resolved unambiguously.
 
 ## Operating rules
 
+- Follow the global testing, Git, and CI policy in `~/.codex/AGENTS.md` and the
+  workspace policy in the parent `AGENTS.md`. They are authoritative for
+  focused local validation, every push, CI timing, and failed-job log access.
 - Follow the repository's `AGENTS.md` and local contribution instructions.
 - Run from the relevant repository checkout. Preserve unrelated changes, use
   an isolated worktree when the current checkout is not clean, and never push
@@ -43,22 +46,27 @@ repository, or a product decision cannot be resolved unambiguously.
 6. Inspect existing patterns and focused tests before editing. Implement the
    complete change, including migrations, permissions, translations,
    observability, or compatibility work when relevant.
-7. Add or update appropriate tests. Run the tests and formatters required by
-   the specification and repository instructions. Fix in-scope failures.
+7. Add or update appropriate tests. Run only the individual test files or test
+   cases involved in the issue, plus narrowly scoped formatters or static
+   checks. Never run a full local suite. Fix in-scope failures.
 8. Review the diff for correctness, security, data safety, unintended scope,
    generated artifacts, and accidental secrets. Reconcile it with the issue
    and specification.
 9. Commit with the issue ID, push the feature branch, and open a draft GitHub
    PR. Include the issue ID in its title and use only the exact PR body format
-   below.
+   below. Monitor that pushed head using the global CI policy before
+   continuing.
 10. Use the `review-pr` skill on the draft PR before requesting human review.
     Fix every verified `Blocker` and `Important` issue, rerun the focused
-    checks that cover those fixes, commit and push the corrections, and repeat
-    the review loop until no `Blocker` or `Important` finding remains. Do not
-    block readiness on `Nit` findings unless they reveal product risk.
-11. Monitor required CI. Diagnose failures, fix in-scope problems, and push
-    follow-up commits. For `citipo/openaction-europe` only, also wait for the
-    Coolify bot PR comment and verify preview URLs using the rules below.
+    checks that cover those fixes, commit and push the corrections, monitor
+    each new head using the global CI policy, and repeat the review loop until
+    no `Blocker` or `Important` finding remains. Do not block readiness on
+    `Nit` findings unless they reveal product risk.
+11. Confirm required CI has succeeded for the latest head using the global
+    policy. Diagnose failures through its bounded GitHub MCP run, job, and log
+    workflow; fix in-scope problems and repeat after every push. For
+    `citipo/openaction-europe` only, also wait for the Coolify bot PR comment
+    and verify preview URLs using the rules below.
 12. When required checks pass, and when Europe preview URLs are verified if the
     repository is `citipo/openaction-europe`, mark the PR ready. Link the PR and
     post exactly one Linear comment using the format below.
@@ -192,6 +200,8 @@ Before handing off, verify that:
 
 - the implementation and specification satisfy the latest accepted scope;
 - focused tests cover important success, edge, permission, and failure paths;
+- every pushed head was handled under the global CI monitoring policy, and the
+  latest required CI is successful;
 - the branch has no unrelated or sensitive edits;
 - the PR body has only its three sections and its raw block stays within 80
   columns;
