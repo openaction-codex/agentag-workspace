@@ -42,9 +42,11 @@ Ask the user to choose only when the input resolves to multiple plausible PRs.
   preview-validation comments.
 - Never test on production or with production data. Only work on the preview 
   environments (which are safe, no risky capability).
-- Do not modify implementation code while validating. When local inspection is
-  needed, use the relevant repository checkout, preserve unrelated work, and
-  inspect the PR head without changing it.
+- Do not modify implementation code while validating. For Europe validation,
+  require a local checkout at the exact PR head before browser testing. Clone
+  the repository under `codebases` when absent; fetch the PR head and use a
+  clean detached checkout or isolated worktree when the existing checkout is
+  dirty or points elsewhere. Preserve unrelated work.
 
 ## Workflow
 
@@ -71,15 +73,36 @@ Ask the user to choose only when the input resolves to multiple plausible PRs.
 
 For `citipo/openaction-europe` only:
 
-1. Execute the validation workflow below against the current PR head and
+1. Prepare the exact current-head checkout and discover its preview fixtures
+   as described below.
+2. Execute the validation workflow below against the current PR head and
    Coolify preview URLs.
-2. Post one GitHub PR comment and one Linear comment with exactly the same
+3. Post one GitHub PR comment and one Linear comment with exactly the same
    French validation summary.
-3. Move the Linear issue according to the overall validation result and confirm
+4. Move the Linear issue according to the overall validation result and confirm
    the update succeeded:
    - `PASSED`: move it to `Ready to merge`.
    - `FAILED` or `BLOCKED`: move it to `To validate`.
    The comments must make failures and blockers clear.
+
+## Prepare the current-head checkout and fixtures
+
+1. Ensure `citipo/openaction-europe` is checked out under `codebases`, fetch the
+   resolved PR head, and verify that the inspected checkout is at the exact
+   remote head SHA. Do not use a stale branch, another task's checkout, or the
+   GitHub diff as a substitute for current source inspection.
+2. Read the repository instructions at that checkout before continuing.
+3. Inspect the current preview bootstrap and fixture definitions, including
+   `console/bin/setup-preview`, `console/src/DataFixtures/TestFixtures.php`,
+   `console/src/DataFixtures/DevFixtures.php`, and any relevant fixture helpers.
+   Determine which fixture groups the preview actually loads.
+4. Resolve and record internally the non-production account, password source,
+   2FA state, organization membership and permissions required by the journey.
+   Resolve every named test record from the same fixtures. Prefer a non-2FA
+   account with the narrowest sufficient permissions.
+5. Treat missing or unusable fixture access as a blocker only after inspecting
+   this current-head source and attempting the safe fixture authentication flow
+   below. Report the precise missing fixture, role, or bootstrap evidence.
 
 ## Recover or design the test journey
 
@@ -110,39 +133,56 @@ For `citipo/openaction-europe` only:
    journey and regression paths; do not require an unrelated app.
 3. Mark a path blocked when its required Europe Coolify URL is missing,
    ambiguous, stale, unreachable, or unsafe. Report the exact missing evidence.
-4. Use only an already authorized login or browser state. Never expose
-   credentials in commands, snapshots, GitHub, Linear, or the final summary.
-   Mark an authenticated path blocked when the required access is unavailable.
+4. Treat an unauthenticated Console login page as an expected starting state,
+   not as evidence that authorization is unavailable.
+5. Use deterministic credentials committed as preview fixture data to log in
+   through visible UI controls. Such fixture credentials are authorized only
+   for the matching preview; never use them on production or substitute a real
+   staff account. They may be supplied to UI automation but must not appear in
+   snapshots, screenshots, retained artifacts, GitHub, Linear, or the final
+   summary.
+6. Use an already authorized browser state when one is safely available, but do
+   not require one. Mark authentication blocked only when the current-head
+   fixture account is absent, its verified login is rejected, required
+   permissions are missing, unavoidable 2FA prevents access, or the preview did
+   not load the expected fixtures. Preserve concise evidence of the failed
+   attempt without exposing credentials.
 
 ## Execute the journey with playwright-cli
 
 1. Create an isolated in-memory named session per app, for example
    `validate-pr-123-console`, and open the exact quoted target URL. Do not use
-   a persistent profile unless the user supplies an authorized one.
-2. Capture the starting URL and a focused snapshot. Follow the planned
+   a persistent profile unless the user supplies an authorized one. Expect a
+   fresh Console session to begin at the login page.
+2. Capture the starting URL and a focused snapshot. When login is shown, enter
+   the verified preview fixture account through visible controls, submit the
+   form, and confirm that the expected organization and fixture records are
+   accessible before executing the journey. Lack of pre-existing browser state
+   alone is never a blocker.
+3. Follow the planned
    navigation, actions, and fixture data exactly through visible UI controls.
    Do not use JavaScript evaluation, storage edits, request mocking, or direct
    API calls to bypass application behavior.
-3. After every meaningful action, verify the expected visible state with a
+4. After every meaningful action, verify the expected visible state with a
    focused snapshot or read-only element inspection. Check persistence after
    navigation or reload when it is part of the accepted behavior.
-4. Run the relevant adjacent regression paths in the same way. Keep them
+5. Run the relevant adjacent regression paths in the same way. Keep them
    proportional to the changed area; do not broaden validation into a generic
    product tour.
-5. After each path, inspect `playwright-cli console` for errors and
+6. After each path, inspect `playwright-cli console` for errors and
    `playwright-cli requests` for failed requests. Inspect relevant request
    details and correlate them with the action. Distinguish harmless or known
    preview noise from evidence of an introduced defect; do not silently ignore
    either.
-6. Capture concise evidence: application and URL, exact fixture, key actions,
+7. Capture concise evidence: application and URL, exact fixture, key actions,
    final visible outcome, relevant console errors, failed requests, and a
    focused screenshot or snapshot when it materially supports the result.
    Exclude tokens, credentials, personal data, and unrelated internal logs.
-7. If the journey creates data, use a unique non-sensitive test value and
+8. If the journey creates data, use a unique non-sensitive test value and
    record it. Clean up only data created by this run, only through a safe
    preview UI path, and only when cleanup cannot hide the failure. Never delete
    a shared fixture or pre-existing record.
-8. Close every named browser session. Do not leave authentication-state files
+9. Close every named browser session. Do not leave authentication-state files
    or other sensitive artifacts behind.
 
 ## Classify the result
@@ -156,7 +196,9 @@ Classify every required path and the overall validation:
   or a relevant console error or failed request demonstrates a defect.
 - `BLOCKED`: a required PR, target URL, fixture, authorization, safe action, or
   `playwright-cli` capability is unavailable, so correctness cannot be
-  established.
+  established. For authenticated preview paths, require current-head fixture
+  discovery plus a failed fixture login attempt or a precise reason why that
+  safe attempt was impossible; a login page by itself is not a blocker.
 
 Use `FAILED` overall when any required path fails, even if another path is
 blocked; list both. Otherwise use `BLOCKED` when any required path is blocked.
