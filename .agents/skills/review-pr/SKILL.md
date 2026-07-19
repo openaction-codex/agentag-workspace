@@ -22,6 +22,9 @@ accept a mode override.
 
 ## Operating rules
 
+- Follow the testing, Git, and CI policy in the workspace root `AGENTS.md`. In
+  this read-only workflow, its focused-test and bounded CI-log rules still
+  apply; do not push changes.
 - Follow the repository's `AGENTS.md` and local contribution instructions.
 - Run from the relevant repository checkout. Preserve unrelated changes and
   use an isolated worktree when local validation requires a clean checkout.
@@ -48,8 +51,9 @@ accept a mode override.
    migrations, permissions, and established patterns.
 4. Analyze the change with `references/review-criteria.md`. Prefer concrete
    product-impacting findings over stylistic commentary.
-5. Run the tests or static checks required to establish confidence, following
-   the repository's local contribution instructions.
+5. Run only the individual tests and narrowly scoped static checks needed to
+   establish confidence, following the workspace no-full-suite rule and the
+   repository's local contribution instructions.
 6. Verify each finding against the head revision. Cite a precise path and line
    for every code finding and avoid duplicating an already resolved comment.
 7. Draft the GitHub review using the format below. Use `Blocker`, `Important`,

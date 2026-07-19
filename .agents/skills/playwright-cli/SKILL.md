@@ -6,6 +6,13 @@ allowed-tools: Bash(playwright-cli:*) Bash(npx:*) Bash(npm:*)
 
 # Browser Automation with playwright-cli
 
+## Repository testing policy
+
+When Playwright is used in a repository workflow, follow the testing, Git, and
+CI policy in the workspace root `AGENTS.md`. Always target the individual spec
+file or test case involved in the task; never run the full Playwright suite
+locally.
+
 ## Quick start
 
 ```bash
@@ -340,19 +347,21 @@ playwright-cli close-all
 playwright-cli kill-all
 ```
 
-## Installation
+## Availability
 
-If global `playwright-cli` command is not available, try a local version via `npx playwright cli`:
+In OpenAction workflows, first verify that the global `playwright-cli` command
+is available. If it is unavailable, follow the workspace root `AGENTS.md`:
+report the browser task as blocked and do not install or silently substitute
+another tool.
+
+Outside those workflows, a repository may explicitly document a local version:
 
 ```bash
 npx --no-install playwright --version
 ```
 
-When local version is available, use `npx playwright cli` in all commands. Otherwise, install `playwright-cli` as a global command:
-
-```bash
-npm install -g @playwright/cli@latest
-```
+When that local version is explicitly authorized, use `npx playwright cli` in
+the relevant commands. Do not install packages as part of an OpenAction task.
 
 ## Example: Form submission
 

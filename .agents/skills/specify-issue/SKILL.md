@@ -16,6 +16,9 @@ unambiguously.
 
 ## Operating rules
 
+- Follow the testing, Git, and CI policy in the workspace root `AGENTS.md`.
+  This workflow is read-only for code: do not run tests, commit, or push, and
+  never prescribe a full local suite in the generated specification.
 - Follow the repository's `AGENTS.md` and local contribution instructions.
 - Run from the relevant repository checkout and preserve unrelated changes.
   Treat code inspection as read-only: do not edit code or push branches while
@@ -79,8 +82,8 @@ headings or generic boilerplate.
 
 # Validation
 
-* `<test file or suite>`: <specific scenario and expected assertion to add or
-  update>
+* `<individual test file or test case>`: <specific scenario and expected
+  assertion to add or update>
 * `<focused command>`: <what it validates; include only commands verified for
   this repository>
 * <Mention Coolify preview validation only for `citipo/openaction-europe`.
@@ -113,6 +116,7 @@ Before updating Linear, verify that the specification:
 
 - matches the issue and latest discussion and is grounded in the current
   codebase, with concrete anchors and scenario-level tests;
+- names only focused local validation and never prescribes a full test suite;
 - adds implementation guidance rather than paraphrasing the issue, separating
   verified behavior, proposed design, and open questions;
 - covers relevant contracts, data, security, compatibility, edge cases, and

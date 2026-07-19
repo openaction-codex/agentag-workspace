@@ -21,9 +21,9 @@ the PR to target `main`; stop for any other base branch.
 
 ## Operating rules
 
-- Follow the global testing, Git, and CI policy in `~/.codex/AGENTS.md` and the
-  workspace policy in the parent `AGENTS.md`. They are authoritative for
-  focused local validation, every push, CI timing, and failed-job log access.
+- Follow the testing, Git, and CI policy in the workspace root `AGENTS.md`. It
+  is authoritative for focused local validation, every push, CI timing, and
+  failed-job log access.
 - Follow the repository's `AGENTS.md` and local contribution instructions.
 - Run from a checkout of the PR base repository. Preserve unrelated local
   changes and use an isolated worktree when the current checkout is not clean.
@@ -32,7 +32,7 @@ the PR to target `main`; stop for any other base branch.
   history; stop and report missing context that prevents safe validation.
 - Re-read the PR head SHA immediately before the final push. Never overwrite a
   head that changed during the operation.
-- Under the global no-full-suite rule, select the smallest relevant test cases
+- Under the workspace no-full-suite rule, select the smallest relevant tests
   and targeted checks needed to prove that conflicted and replayed code was
   integrated correctly.
 - Treat the rebase request as authorization to force-push the original PR
@@ -119,7 +119,7 @@ Record every conflicted file and the reason for its resolution.
 4. Verify that all PR title/body claims and all applicable Linear acceptance
    criteria remain true. Document intentional differences and superseded
    commits.
-5. Under the global testing policy, run only focused test cases that exercise
+5. Under the workspace testing policy, run only focused tests that exercise
    the affected behavior, especially every conflicted path and any contract
    changed by conflict resolution. Run targeted formatters or static checks
    for touched files when useful; rely on required CI for broader coverage.
@@ -143,7 +143,7 @@ conflict decisions, and test results, then:
 2. Re-read the remote PR head SHA, diff, files, and checks.
 3. Confirm the PR still targets `main`, the remote backup is recoverable, and
    the published diff matches the validated local result.
-4. Monitor all required checks through a terminal result using the global CI
+4. Monitor all required checks through a terminal result using the workspace
    timing and bounded GitHub MCP log policy. If a check fails, fix failures
    caused by the replay or conflict resolution, run the narrowest local
    regression test covering the fix, push with the same safety checks, and

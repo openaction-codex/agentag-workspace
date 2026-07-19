@@ -23,9 +23,9 @@ do not generalize this workflow.
 
 ## Operating rules
 
-- Follow the global testing, Git, and CI policy in `~/.codex/AGENTS.md` and the
-  workspace policy in the parent `AGENTS.md`. They are authoritative for
-  focused local validation, every push, CI timing, and failed-job log access.
+- Follow the testing, Git, and CI policy in the workspace root `AGENTS.md`. It
+  is authoritative for focused local validation, every push, CI timing, and
+  failed-job log access.
 - Follow the repository's `AGENTS.md` and local contribution instructions.
 - Run from a checkout with remotes for both the selected fork and Europe.
   Preserve unrelated local changes and use an isolated worktree when the
@@ -36,7 +36,7 @@ do not generalize this workflow.
 - Default to cherry-picking fork-only commits onto upstream `main`. Use rebase
   only when the entire fork-only series is linear, cohesive, and every replay
   is demonstrably mechanical; explain the exception before using it.
-- Under the global no-full-suite rule, select the smallest relevant test cases
+- Under the workspace no-full-suite rule, select the smallest relevant tests
   and targeted checks needed to prove that conflicted and replayed code was
   integrated correctly.
 - Treat the fork synchronization request as authorization to push the allowed
@@ -131,7 +131,7 @@ Record every conflicted file and why the resolution preserves both sides.
    fork behavior checklist and remove accidental drift or conflict artifacts.
 4. Verify all applicable fork PR and Linear acceptance criteria as well as the
    relevant upstream behavior.
-5. Under the global testing policy, run only focused test cases that exercise
+5. Under the workspace testing policy, run only focused tests that exercise
    affected fork behavior, relevant upstream behavior, every conflicted path,
    and contracts changed by conflict resolution. Run targeted formatters or
    static checks for touched files when useful; rely on required CI for broader
@@ -158,7 +158,7 @@ Then:
 1. Fetch the fork and verify its remote `main` equals the validated sync head.
 2. Verify the backup ref remains recoverable.
 3. Re-read the remote branch and required CI checks.
-4. Monitor all required checks through a terminal result using the global CI
+4. Monitor all required checks through a terminal result using the workspace
    timing and bounded GitHub MCP log policy. If a check fails, fix failures
    caused by the replay, conflict resolution, or fork integration, run the
    narrowest local regression test covering the fix, update fork `main` with

@@ -22,6 +22,9 @@ Ask the user to choose only when the input resolves to multiple plausible PRs.
 
 ## Operating rules
 
+- Follow the testing, Git, and CI policy in the workspace root `AGENTS.md`.
+  This validation workflow does not run local suites, commit, or push; use its
+  bounded-log rule if CI failure evidence must be inspected.
 - Follow the repository's `AGENTS.md` and local contribution instructions.
 - Use the GitHub and Linear access available in the local environment. Require
   complete PR and issue context plus the ability to publish the required

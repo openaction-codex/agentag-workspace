@@ -1,8 +1,8 @@
 # Running Playwright Tests
 
-Follow the global testing policy in `~/.codex/AGENTS.md`: never run the full
-Playwright suite locally. Select the individual spec file or test case involved
-in the task. To avoid opening the interactive HTML report, use the
+Follow the testing policy in the workspace root `AGENTS.md`: never run the
+full Playwright suite locally. Select the individual spec file or test case
+involved in the task. To avoid opening the interactive HTML report, use the
 `PLAYWRIGHT_HTML_OPEN=never` environment variable.
 
 ```bash

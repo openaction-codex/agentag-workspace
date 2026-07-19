@@ -373,8 +373,8 @@ Goal: fix failing tests, and update the spec if the app's intended behaviour cha
 ### 3.1 Find failing tests
 
 Use the failed CI job list and its bounded logs, or the task's known affected
-spec files, to identify failures. Follow `~/.codex/AGENTS.md`; never discover
-failures by running the full local suite.
+spec files, to identify failures. Follow the workspace root `AGENTS.md`; never
+discover failures by running the full local suite.
 
 ```bash
 PLAYWRIGHT_HTML_OPEN=never npx playwright test tests/<group>/<scenario>.spec.ts

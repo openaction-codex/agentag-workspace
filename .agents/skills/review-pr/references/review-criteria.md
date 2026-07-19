@@ -45,6 +45,10 @@ comments. Check both the changed lines and the surrounding implementation.
 
 ## 6. Testing and Validation
 
+Apply the testing and CI policy in the workspace root `AGENTS.md`: run only
+focused local tests and use bounded GitHub MCP job logs when inspecting CI
+failures.
+
 - Confirm tests cover happy paths, edge cases, and failure paths.
 - Validate assertions are meaningful and not overly implementation-specific.
 - Check that missing tests are called out when risk is non-trivial.
