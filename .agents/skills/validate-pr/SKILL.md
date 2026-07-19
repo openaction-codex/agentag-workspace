@@ -1,6 +1,6 @@
 ---
 name: validate-pr
-description: "Validate an OpenAction implementation from a Linear issue ID or GitHub pull request number or URL. Use when asked to test, QA, or validate a PR through its French test journey: immediately mark the Linear issue as Validation in progress, route non-Europe issues to To validate, use Europe Coolify preview URLs for real functional validation, execute the flow with playwright-cli, post matching French GitHub and Linear comments, move passed issues to Ready to merge and unsuccessful issues to To validate, and report evidence as passed, failed, or blocked."
+description: "Validate an OpenAction implementation from a Linear issue ID or GitHub pull request number or URL. Use when asked to test, QA, or validate a PR through its French test journey: immediately mark the Linear issue as Validation in progress, route non-Europe issues to To validate, use Europe Coolify preview URLs for real functional validation, execute the flow with playwright-cli, post matching French GitHub and Linear comments, label passed issues AgentValidé and move them to Ready to merge, move unsuccessful issues to To validate, and report evidence as passed, failed, or blocked."
 ---
 
 # Validate a Pull Request
@@ -79,10 +79,16 @@ For `citipo/openaction-europe` only:
    Coolify preview URLs.
 3. Post one GitHub PR comment and one Linear comment with exactly the same
    French validation summary.
-4. Move the Linear issue according to the overall validation result and confirm
-   the update succeeded:
-   - `PASSED`: move it to `Ready to merge`.
-   - `FAILED` or `BLOCKED`: move it to `To validate`.
+4. Update the Linear issue according to the overall validation result and
+   confirm the update succeeded:
+   - `PASSED`: resolve the existing team label named exactly `AgentValidé`,
+     re-read the issue's current labels, append `AgentValidé` without removing
+     or duplicating any existing label, and move the issue to `Ready to merge`.
+     Re-read the issue and confirm both the label and status. If the exact label
+     is unavailable or either update cannot be confirmed, report workflow
+     finalization as blocked and do not claim external publication completed.
+   - `FAILED` or `BLOCKED`: move it to `To validate`; do not add or remove
+     `AgentValidé` or alter any other label.
    The comments must make failures and blockers clear.
 
 ## Prepare the current-head checkout and fixtures
